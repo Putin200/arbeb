@@ -3,20 +3,28 @@ import requests
 import sys
 import os
 
+
 def ll(x, y):
     return '{0},{1}'.format(x, y)
 
+
 class MapPar(object):
     def __init__(self):
-        self.lat = 50.459933
-        self.lon = 30.461040
+        self.lat = 55.364908
+        self.lon = 50.606802
         self.zoom = 17
         self.type = 'map'
+
     def ll(self):
         return ll(self.lon, self.lat)
 
+
 def zag_map(mp):
-    map_req = "http://static-maps.yandex.ru/1.x/?ll={ll}&z={z}&l={type}".format(ll=mp.ll(), z=mp.zoom(), type=mp.type())
+    lon = mp.lon
+    lat = mp.lat
+    z = mp.zoom
+    type = mp.type
+    map_req = f"http://static-maps.yandex.ru/1.x/?ll={lon},{lat}&z={z}&l={type}"
     response = requests.get(map_req)
     if not response:
         print('ОШИБОЧКА')
@@ -26,20 +34,23 @@ def zag_map(mp):
         file.write(response.content)
     return map_file
 
+
 def main():
     pygame.init()
     screen = pygame.display.set_mode((600, 450))
     mp = MapPar()
-    map_file = zag_map(mp)
+
     while True:
         event = pygame.event.wait()
-        if event.type != pygame.QUIT:
+        if event.type == pygame.QUIT:
             break
+        map_file = zag_map(mp)
         screen.blit(pygame.image.load(map_file), (0, 0))
         pygame.display.flip()
 
     pygame.quit()
     os.remove(map_file)
+
 
 if __name__ == '__main__':
     main()
