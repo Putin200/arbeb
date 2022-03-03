@@ -8,8 +8,8 @@ def ll(x, y):
 
 class MapPar(object):
     def __init__(self):
-        self.lat = 50.459933
-        self.lon = 30.461040
+        self.lat = 32.676199
+        self.lon = -117.157694
         self.zoom = 17
         self.type = 'map'
     def ll(self):
